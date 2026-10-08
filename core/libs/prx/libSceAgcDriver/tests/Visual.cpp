@@ -108,6 +108,9 @@ void Run(SDL_Window* window, const std::filesystem::path& directory, bool verify
     state.scissor = {{0, 0}, {Width, Height}};
     state.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
     state.blend.colorWriteMask = 15;
+    // Draw consumes the attachment vectors; keep the primary target and blend state in sync.
+    state.colors.push_back(state.color);
+    state.blends.push_back(state.blend);
     if (windowOnly) {
         RenderSoftwareTriangle();
     } else {
