@@ -44,6 +44,17 @@ library change without it therefore tests the previous binaries and can show no 
 
 [Relinker usage and runtime layout](../user/USAGE.md).
 
+## AGC visual test
+
+Configure and build the standalone Vulkan/SDL visual test with:
+
+```sh
+cmake -S . -B build-visual -G Ninja -DCMAKE_BUILD_TYPE=Release -DAGC_BUILD_VISUAL_TEST=ON
+cmake --build build-visual --target agc_driver_visual_test --parallel
+```
+
+Run `build-visual/tests/agc_driver_visual_test --verify` (append `.exe` on Windows) to exercise the AGC SPIR-V draw and GPU-readback checks. `--window-only` opens the Vulkan presentation window and displays a software-generated triangle; it is a presentation smoke test and deliberately skips AGC GPU-draw verification. Press Escape or close the window to exit the interactive mode.
+
 ## CMake flags
 
 Project switches accept `ON` or `OFF`:
@@ -69,17 +80,6 @@ Build configuration parameters:
 | `-DFFMPEG_PREBUILT_DIR=<path>`         | Unpacked FFmpeg package for the target platform; empty by default. |
 
 SDL and FreeType settings forced by the root `CMakeLists.txt` cannot be overridden with `-D`.
-
-## AGC visual test
-
-Configure and build the standalone Vulkan/SDL visual test with:
-
-```sh
-cmake -S . -B build-visual -G Ninja -DCMAKE_BUILD_TYPE=Release -DAGC_BUILD_VISUAL_TEST=ON
-cmake --build build-visual --target agc_driver_visual_test --parallel
-```
-
-Run `build-visual/tests/agc_driver_visual_test --verify` (append `.exe` on Windows) to exercise the AGC SPIR-V draw and GPU-readback checks. `--window-only` opens the Vulkan presentation window and displays a software-generated triangle; it is a presentation smoke test and deliberately skips AGC GPU-draw verification. Press Escape or close the window to exit the interactive mode.
 
 ## Pipeline statistics
 
