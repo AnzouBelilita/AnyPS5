@@ -70,6 +70,17 @@ Build configuration parameters:
 
 SDL and FreeType settings forced by the root `CMakeLists.txt` cannot be overridden with `-D`.
 
+## AGC visual test
+
+Configure and build the standalone Vulkan/SDL visual test with:
+
+```sh
+cmake -S . -B build-visual -G Ninja -DCMAKE_BUILD_TYPE=Release -DAGC_BUILD_VISUAL_TEST=ON
+cmake --build build-visual --target agc_driver_visual_test --parallel
+```
+
+Run `build-visual/tests/agc_driver_visual_test --verify` (append `.exe` on Windows) to exercise the AGC SPIR-V draw and GPU-readback checks. `--window-only` opens the Vulkan presentation window and displays a software-generated triangle; it is a presentation smoke test and deliberately skips AGC GPU-draw verification. Press Escape or close the window to exit the interactive mode.
+
 ## Pipeline statistics
 
 Set `APS5_PIPELINE_STATS=1` to capture and print driver statistics for each newly created graphics or compute pipeline. This requires `VK_KHR_pipeline_executable_properties` and `pipelineExecutableInfo`; an unsupported device fails with an error. Statistic names and units are driver-specific. Capturing statistics can increase pipeline compilation cost. The setting is disabled by default.

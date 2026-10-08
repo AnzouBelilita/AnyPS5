@@ -724,6 +724,8 @@ if(AGC_BUILD_VISUAL_TEST)
     add_test_executable(agc_driver_visual_test EXCLUDE_FROM_ALL
             tests/Visual.cpp
             Execution/src/VulkanDevice.cpp
+            Execution/src/Pm4.cpp
+            tests/VisualPlatformShims.cpp
             Execution/src/DisplayFormat.cpp
             Execution/src/AspectFit.cpp
             Execution/src/PresentationScaler.cpp
@@ -737,6 +739,7 @@ if(AGC_BUILD_VISUAL_TEST)
             Graphics/src/ColorTargetTransfer.cpp
             Graphics/src/Pipeline.cpp
             Graphics/src/PipelineCache.cpp
+            Graphics/src/Recorder.cpp
             Graphics/src/Resources.cpp
             Graphics/src/ShaderResources.cpp
             Graphics/src/ShaderAddressResources.cpp
@@ -754,6 +757,8 @@ if(AGC_BUILD_VISUAL_TEST)
             Graphics/src/UnitShadow.cpp
             Graphics/src/Sampler.cpp
             ${agcTextureDetileShaderHeader}
+            ${agcMeshArgumentsShaderHeader}
+            ${agcSampleCounterShaderHeader}
             ${visualShaders}
     )
 
@@ -769,6 +774,7 @@ if(AGC_BUILD_VISUAL_TEST)
     )
 
     target_link_libraries(agc_driver_visual_test PRIVATE
+            shader_recompiler_agc_driver
             SDL2-static
             libc
     )
