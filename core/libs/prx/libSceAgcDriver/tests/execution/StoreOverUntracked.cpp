@@ -358,15 +358,14 @@ Outcome Run(const Case& test) {
         const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
         while (true) {
             hold.lock();
-            if (StorageTexture::FindLive(address, SurfaceBytes) != nullptr) {
-                if (StorageTexture::AnyPending()) break;
-                hold.unlock();
-                return Outcome::Missed;
-            }
+            const bool live = StorageTexture::FindLive(address, SurfaceBytes) != nullptr;
             hold.unlock();
+            if (live) break;
             Require(std::chrono::steady_clock::now() < deadline, "store over untracked: the surface's storage image was never created");
             std::this_thread::yield();
         }
+        if (!HoldPending(hold, surface, Stored)) return Outcome::Missed;
+        hold.lock();
         const auto from = StorageTexture::FindLive(source->Address(), Block);
         const auto to = StorageTexture::FindLive(address + LastBlock, Block);
         Require(from != nullptr && to != nullptr, "store over untracked: the blocks have no storage images to copy between");
