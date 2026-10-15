@@ -365,7 +365,6 @@ Outcome Run(const Case& test) {
             std::this_thread::yield();
         }
         if (!HoldPending(hold, surface, Stored)) return Outcome::Missed;
-        hold.lock();
         const auto from = StorageTexture::FindLive(source->Address(), Block);
         const auto to = StorageTexture::FindLive(address + LastBlock, Block);
         Require(from != nullptr && to != nullptr, "store over untracked: the blocks have no storage images to copy between");
